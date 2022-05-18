@@ -425,7 +425,7 @@ def asr_calibrate(X, sfreq, cutoff=5, blocksize=100, win_len=0.5,
 
     # get block covariances
     U = block_covariance(X, window=blocksize)
-    print(U)
+    # print(U)
 
     # get geometric median for each block
     # Note: riemann mode is not yet supported, else this could be:
