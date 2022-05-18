@@ -425,11 +425,13 @@ def asr_calibrate(X, sfreq, cutoff=5, blocksize=100, win_len=0.5,
 
     # get block covariances
     U = block_covariance(X, window=blocksize)
+    print(U)
 
     # get geometric median for each block
     # Note: riemann mode is not yet supported, else this could be:
     # Uavg = pyriemann.utils.mean_covariance(U, metric='riemann')
     Uavg = geometric_median(U.reshape((-1, nc * nc)) / blocksize)
+    #The geometric mean cannot be applied to negative values!!!!!
     Uavg = Uavg.reshape((nc, nc))
 
     # get the mixing matrix M
@@ -771,14 +773,18 @@ def clean_windows(X, sfreq, max_bad_chans=0.2, zthresholds=[-3.5, 5],
                 np.arange(offsets[removed_wins[0][i]],
                           offsets[removed_wins[0][i]] + N)
             ))
-
+#
     # delete the bad chunks from the data
     sample_mask2remove = np.unique(sample_maskidx)
     if sample_mask2remove.size:
         clean = np.delete(X, sample_mask2remove, 1)
+        #print("clean shape: ",clean.shape)
         sample_mask = np.ones((1, ns), dtype=bool)
         sample_mask[0, sample_mask2remove] = False
     else:
+        #print("AAA")
         sample_mask = np.ones((1, ns), dtype=bool)
+        clean = X
+       # print(clean)
 
-    return clean, sample_mask
+    return clean, sample_mask 

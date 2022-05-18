@@ -500,10 +500,25 @@ def block_covariance(data, window=128):
     n_ch, n_times = data.shape
     U = np.zeros([len(np.arange(0, n_times - 1, window)), n_ch**2])
     data = data.T
+    # print("n_times: ",n_times)
+    # print("Data shape: ",data.shape)
+    # print("U shape initially: ",U.shape)
     for k in range(0, window):
         idx_range = np.minimum(n_times - 1,
-                               np.arange(k, n_times + k - 2, window))
+                               np.arange(k, n_times + k -1 , window))
+
+
+        # print("idx_range: ",idx_range.shape)
+
+        A = (data[idx_range].reshape([-1, 1, n_ch]) *
+                           data[idx_range].reshape(-1, n_ch, 1))
+
+        # print("A: ",A.shape)
+
         U = U + np.reshape(data[idx_range].reshape([-1, 1, n_ch]) *
                            data[idx_range].reshape(-1, n_ch, 1), U.shape)
+
+        # print("U shape in the end: ",U.shape)
+        # print('\n')
 
     return np.array(U)
