@@ -502,7 +502,7 @@ def block_covariance(data, window=128):
     data = data.T
     for k in range(0, window):
         idx_range = np.minimum(n_times - 1,
-                               np.arange(k, n_times + k - 2, window))
+                               np.arange(k, n_times + k - 1, window))
         U = U + np.reshape(data[idx_range].reshape([-1, 1, n_ch]) *
                            data[idx_range].reshape(-1, n_ch, 1), U.shape)
 
