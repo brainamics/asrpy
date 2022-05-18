@@ -778,13 +778,10 @@ def clean_windows(X, sfreq, max_bad_chans=0.2, zthresholds=[-3.5, 5],
     sample_mask2remove = np.unique(sample_maskidx)
     if sample_mask2remove.size:
         clean = np.delete(X, sample_mask2remove, 1)
-        #print("clean shape: ",clean.shape)
         sample_mask = np.ones((1, ns), dtype=bool)
         sample_mask[0, sample_mask2remove] = False
     else:
-        #print("AAA")
         sample_mask = np.ones((1, ns), dtype=bool)
         clean = X
-       # print(clean)
 
     return clean, sample_mask 

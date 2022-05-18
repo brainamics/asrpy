@@ -506,19 +506,9 @@ def block_covariance(data, window=128):
     for k in range(0, window):
         idx_range = np.minimum(n_times - 1,
                                np.arange(k, n_times + k -1 , window))
-
-
-        # print("idx_range: ",idx_range.shape)
-
         A = (data[idx_range].reshape([-1, 1, n_ch]) *
                            data[idx_range].reshape(-1, n_ch, 1))
-
-        # print("A: ",A.shape)
-
         U = U + np.reshape(data[idx_range].reshape([-1, 1, n_ch]) *
                            data[idx_range].reshape(-1, n_ch, 1), U.shape)
-
-        # print("U shape in the end: ",U.shape)
-        # print('\n')
 
     return np.array(U)
